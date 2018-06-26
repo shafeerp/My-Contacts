@@ -10,6 +10,8 @@ import UIKit
 
 class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
   
+    var dbHelper = DBHelper()
+    var contacts = [Contacts]()
     var array : [String] = Array()
     var searchedList : [String] = Array()
 
@@ -29,6 +31,10 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchBar.resignFirstResponder()
         return true
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        getContacts()
     }
     
     @objc func searchRecords(textField:UITextField){
@@ -60,6 +66,17 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
         let cell = tableView.dequeueReusableCell(withIdentifier: "contact-cell", for: indexPath)
         cell.textLabel?.text = array[indexPath.row]
         return cell
+    }
+    func getContacts(){
+        contacts = dbHelper.getContactTableDetails()
+        if contacts.isEmpty{
+            print("Empty")
+            Common.showEmptyAlert(title: "No Contact", message: "Please add contact", view: self)
+        }
+        else {
+            //show contacts
+
+        }
     }
     
 

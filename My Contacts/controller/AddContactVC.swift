@@ -16,11 +16,19 @@ struct Countries : Codable{
 class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
     
-   
+   //TextField
     @IBOutlet var numberTextField: UITextField!
     @IBOutlet var countryDropDown: DropDown!
+    @IBOutlet var firstNameTextField: UITextField!
+    @IBOutlet var secondNameTextField: UITextField!
+    @IBOutlet var mailIDTextField: UITextField!
+    
+    var dbHelper = DBHelper()
     var countryNames : [String] = Array()
+    //ImageView
     @IBOutlet var contactIcon: UIImageView!
+    
+    //Button
     @IBOutlet var saveButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +61,8 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     }
     
     
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         contactIcon.image = image
@@ -65,6 +75,32 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
+    
+    @IBAction func saveButtonClick(_ sender: Any) {
+        
+        if firstNameTextField.text == "" {
+            firstNameTextField.shake()
+        }
+        else if secondNameTextField.text == ""{
+            secondNameTextField.shake()
+        }
+        else if mailIDTextField.text == ""{
+            mailIDTextField.shake()
+        }
+        else if countryDropDown.text == ""{
+            countryDropDown.shake()
+        }
+        else if numberTextField.text == ""{
+            numberTextField.shake()
+        }
+        else {
+             dbHelper.insertIntoContactTabel(firstname: firstNameTextField.text!, secondname: secondNameTextField.text!, mailId: mailIDTextField.text!, cont: countryDropDown.text!, number: numberTextField.text!, image: "")
+            Common.showAlert(title: "Saved", message: "Contact Successfully Saved", view: self)
+        }
+    }
+    
+    
     
     func getCountryDetails(){
         var countryCode = [String]()

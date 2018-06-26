@@ -13,7 +13,7 @@
         <!--ContactsVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ContactsVC" customModule="My_Contacts" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ContactsVC" id="BYZ-38-t0r" customClass="ContactsVC" customModule="My_Contacts" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,7 +81,7 @@
         <!--Add ContactVC-->
         <scene sceneID="zrq-8a-1cn">
             <objects>
-                <viewController id="g9d-bJ-cwq" customClass="AddContactVC" customModule="My_Contacts" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddContactVC" id="g9d-bJ-cwq" customClass="AddContactVC" customModule="My_Contacts" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ivU-RV-jBN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -156,6 +156,9 @@
                                                 <state key="normal" title="Save">
                                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="saveButtonClick:" destination="g9d-bJ-cwq" eventType="touchUpInside" id="UBK-dn-99e"/>
+                                                </connections>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="mobilenumber*" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBW-9O-7zX">
                                                 <rect key="frame" x="62" y="448" width="250" height="30"/>
@@ -217,8 +220,11 @@
                     <connections>
                         <outlet property="contactIcon" destination="8TJ-RE-yF0" id="AiL-Tn-rBk"/>
                         <outlet property="countryDropDown" destination="o1j-Uj-8Of" id="PAe-Ny-oZC"/>
+                        <outlet property="firstNameTextField" destination="mcE-HJ-XzN" id="YME-zj-aeA"/>
+                        <outlet property="mailIDTextField" destination="MbV-hO-OeX" id="9Ka-pS-QV8"/>
                         <outlet property="numberTextField" destination="OBW-9O-7zX" id="oIm-hk-Jq3"/>
                         <outlet property="saveButton" destination="Hv0-Fv-doA" id="fSb-bj-45T"/>
+                        <outlet property="secondNameTextField" destination="Fvi-GQ-ZL6" id="0KR-Yr-pda"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bHw-Nl-t1I" userLabel="First Responder" sceneMemberID="firstResponder"/>
