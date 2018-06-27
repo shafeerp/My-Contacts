@@ -46,6 +46,7 @@ class DBHelper {
         }
     }
     public func getContactTableDetails() -> [Contacts]{
+        contacts.removeAll()
         for contact in try! db.prepare(contactsDB) {
             contacts.append(Contacts(firstname: contact[firstName], secondname: contact[secondName], email: contact[email], country: contact[country], mobileNumber: contact[mobileNumber], image: contact[imageData]))
         }

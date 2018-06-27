@@ -12,8 +12,7 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
   
     var dbHelper = DBHelper()
     var contacts = [Contacts]()
-    var array : [String] = Array()
-    var searchedList : [String] = Array()
+    var filteredContacts = [Contacts]()
 
     @IBOutlet var searchBar: UITextField!
     @IBOutlet var contactsTable: UITableView!
@@ -21,61 +20,73 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
         super.viewDidLoad()
         searchBar.roundedCorner(cornerRadius : 15)
         searchBar.delegate = self
-        
-        for str in array{
-            searchedList.append(str)
-        }
-        
         searchBar.addTarget(self, action: #selector(self.searchRecords(textField:)), for: .editingChanged)
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchBar.resignFirstResponder()
         return true
     }
+    
+    public func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        searchBar.resignFirstResponder()
+        return true
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        contacts.removeAll()
+        filteredContacts.removeAll()
         getContacts()
+        print(contacts.count)
+        print(filteredContacts.count)
+        for contact in contacts{
+            filteredContacts.append(contact)
+        }
+        print(contacts.count)
+        print(filteredContacts.count)
     }
     
     @objc func searchRecords(textField:UITextField){
-        self.array.removeAll()
+        self.contacts.removeAll()
         if textField.text?.count != 0 {
-            for contact in searchedList {
-                if let contactToSeatch = textField.text {
-                    let range = contact.lowercased().range(of: contactToSeatch, options: .caseInsensitive, range: nil, locale: nil)
+            for contact in filteredContacts{
+                if let contactToSearch = textField.text{
+                    let range = contact.firstname.lowercased().range(of: contactToSearch, options: .caseInsensitive, range: nil, locale: nil)
                     if range != nil{
-                        self.array.append(contact)
+                        self.contacts.append(contact)
                     }
                 }
             }
         }
         else {
-            for str in searchedList{
-                array.append(str)
+            for contact in filteredContacts{
+                contacts.append(contact)
             }
         }
         contactsTable.reloadData()
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
+        return contacts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "contact-cell", for: indexPath)
-        cell.textLabel?.text = array[indexPath.row]
+        cell.textLabel?.text = contacts[indexPath.row].firstname
         return cell
     }
     func getContacts(){
+        contacts.removeAll()
         contacts = dbHelper.getContactTableDetails()
+        print(contacts.count)
         if contacts.isEmpty{
             print("Empty")
             Common.showEmptyAlert(title: "No Contact", message: "Please add contact", view: self)
         }
         else {
             //show contacts
-
+            contactsTable.reloadData()
+            print(contacts.count)
         }
     }
     
