@@ -8,7 +8,7 @@
 
 import Foundation
 class Contacts {
-    
+    let id : Int
     let firstname : String
     let secondname: String
     let email : String
@@ -16,13 +16,15 @@ class Contacts {
     let mobileNumber:String
     let image:String
     
-    init(firstname : String,secondname: String,email : String,country:String,mobileNumber:String,image:String) {
+    init(id : Int,firstname : String,secondname: String,email : String,country:String,mobileNumber:String,image:String) {
         self.firstname = firstname
         self.secondname = secondname
         self.email = email
         self.country = country
         self.mobileNumber = mobileNumber
         self.image = image
+        self.id = id
+        
     }
     
 }

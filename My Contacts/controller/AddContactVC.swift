@@ -15,6 +15,7 @@ struct Countries : Codable{
 
 class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+    @IBOutlet var baseView: UIView!
     
    //TextField
     @IBOutlet var numberTextField: UITextField!
@@ -23,6 +24,7 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     @IBOutlet var secondNameTextField: UITextField!
     @IBOutlet var mailIDTextField: UITextField!
     
+    var activeTextField  = UITextField()
     var dbHelper = DBHelper()
     var countryNames : [String] = Array()
     //ImageView
@@ -32,6 +34,7 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     @IBOutlet var saveButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        addNoticationAndDelegates()
         numberTextField.alpha = 0
         saveButton.alpha = 0
         contactIcon.makeRounded()
@@ -95,7 +98,8 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
             numberTextField.shake()
         }
         else {
-             dbHelper.insertIntoContactTabel(firstname: firstNameTextField.text!, secondname: secondNameTextField.text!, mailId: mailIDTextField.text!, cont: countryDropDown.text!, number: numberTextField.text!, image: "")
+            
+            dbHelper.insertIntoContactTabel(firstname: firstNameTextField.text!, secondname: secondNameTextField.text!, mailId: mailIDTextField.text!, cont: countryDropDown.text!, number: numberTextField.text!, image: Common.encodeToString64(image: contactIcon.image!))
             Common.showAlert(title: "Saved", message: "Contact Successfully Saved", view: self)
         }
     }
@@ -143,5 +147,64 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
        
     }
     
+    func addNoticationAndDelegates(){
+        
+        firstNameTextField.delegate = self
+        secondNameTextField.delegate = self
+        mailIDTextField.delegate = self
+        numberTextField.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+    }
     
+    
+    @objc func keyboardDidShow(notification : Notification){
+        
+        let info:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardY = self.baseView.frame.size.height - keyboardSize.height
+        let editingTextFieldY = self.activeTextField.frame.origin.y
+        if self.baseView.frame.origin.y >= 0 {
+            if editingTextFieldY > keyboardY - 60 {
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                    self.baseView.frame = CGRect(x: 0, y: self.baseView.frame.origin.y - (editingTextFieldY - (keyboardY - 60)), width:self.baseView.bounds.width , height: self.baseView.bounds.height)
+                }, completion: nil)
+            }
+        }
+    }
+    
+    @objc func keyboardDidHide(notification : Notification){
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            self.baseView.frame = CGRect(x: 0, y: 0, width: self.baseView.bounds.width, height: self.baseView.bounds.height)
+        }, completion: nil)
+    }
+    
+}
+extension AddContactVC : UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case firstNameTextField:
+            secondNameTextField.becomeFirstResponder()
+            break
+        case secondNameTextField:
+            mailIDTextField.becomeFirstResponder()
+            break
+        case mailIDTextField:
+            countryDropDown.becomeFirstResponder()
+            break
+        case numberTextField:
+            numberTextField.resignFirstResponder()
+            break
+        default:
+            break
+        }
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
 }

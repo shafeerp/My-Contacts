@@ -18,6 +18,8 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
     @IBOutlet var contactsTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.contactsTable.rowHeight = 70
+        self.contactsTable.separatorStyle = .none
         searchBar.roundedCorner(cornerRadius : 15)
         searchBar.delegate = self
         searchBar.addTarget(self, action: #selector(self.searchRecords(textField:)), for: .editingChanged)
@@ -36,13 +38,9 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
         contacts.removeAll()
         filteredContacts.removeAll()
         getContacts()
-        print(contacts.count)
-        print(filteredContacts.count)
         for contact in contacts{
             filteredContacts.append(contact)
         }
-        print(contacts.count)
-        print(filteredContacts.count)
     }
     
     @objc func searchRecords(textField:UITextField){
@@ -71,14 +69,24 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contact-cell", for: indexPath)
-        cell.textLabel?.text = contacts[indexPath.row].firstname
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contact-cell", for: indexPath) as! ContactsCell
+        cell.contactIcon.image = Common.decodeToImage(base64String: contacts[indexPath.row].image)
+        cell.contactName?.text = "\(contacts[indexPath.row].firstname) \(contacts[indexPath.row].secondname)"
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            dbHelper.deleteEntryFromContactTable(ID: self.contacts[indexPath.row].id)
+            self.contacts.remove(at: indexPath.row)
+            contactsTable.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    
     func getContacts(){
         contacts.removeAll()
         contacts = dbHelper.getContactTableDetails()
-        print(contacts.count)
         if contacts.isEmpty{
             print("Empty")
             Common.showEmptyAlert(title: "No Contact", message: "Please add contact", view: self)
@@ -86,7 +94,6 @@ class ContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UIT
         else {
             //show contacts
             contactsTable.reloadData()
-            print(contacts.count)
         }
     }
     

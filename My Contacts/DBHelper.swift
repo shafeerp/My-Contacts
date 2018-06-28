@@ -13,7 +13,7 @@ class DBHelper {
     let db = try! Connection("\(Common.path)/contacts.sqlite3")
     let contactsDB = Table("contacts")
     var contacts = [Contacts]()
-    let id = Expression<Int64>("id")
+    let id = Expression<Int>("id")
     let firstName = Expression<String>("firstName")
     let secondName = Expression<String>("secondName")
     let email = Expression<String>("email")
@@ -48,9 +48,13 @@ class DBHelper {
     public func getContactTableDetails() -> [Contacts]{
         contacts.removeAll()
         for contact in try! db.prepare(contactsDB) {
-            contacts.append(Contacts(firstname: contact[firstName], secondname: contact[secondName], email: contact[email], country: contact[country], mobileNumber: contact[mobileNumber], image: contact[imageData]))
+            contacts.append(Contacts(id: contact[id], firstname: contact[firstName], secondname: contact[secondName], email: contact[email], country: contact[country], mobileNumber: contact[mobileNumber], image: contact[imageData]))
         }
         return contacts
+    }
+    func deleteEntryFromContactTable(ID:Int){
+        let contact = contactsDB.filter(id == ID)
+        try! db.run(contact.delete())
     }
     
     

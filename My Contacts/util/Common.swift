@@ -37,6 +37,17 @@ class Common{
         }))
         view.present(alert, animated: true, completion: nil)
     }
+    
+    public static func encodeToString64(image:UIImage) -> String{
+        let imageData : NSData = UIImagePNGRepresentation(image)! as NSData
+        let base64String = imageData.base64EncodedString(options: .lineLength64Characters)
+        return base64String
+    }
+    public static func decodeToImage(base64String : String) -> UIImage{
+        let imageData : Data = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters)!
+        return UIImage(data: imageData)!
+        
+    }
 }
 
 extension UITextField{
@@ -61,6 +72,8 @@ extension UIImageView{
         self.clipsToBounds = true
         self.layer.cornerRadius = self.layer.frame.width/2
     }
+    
+    
 }
 extension UIButton{
     func roundedCorner(cornerRadius : CGFloat){

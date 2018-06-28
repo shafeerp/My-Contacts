@@ -21,6 +21,7 @@
 		9D4DB74220E16196008F488D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DB74120E16196008F488D /* Common.swift */; };
 		9D4DB74820E16D51008F488D /* AddContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DB74720E16D50008F488D /* AddContactVC.swift */; };
 		9D4DB74B20E16F72008F488D /* sachin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9D4DB74A20E16F72008F488D /* sachin.jpg */; };
+		9D94723120E4890A004868AC /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94723020E4890A004868AC /* ContactsCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +54,7 @@
 		9D4DB74120E16196008F488D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		9D4DB74720E16D50008F488D /* AddContactVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactVC.swift; sourceTree = "<group>"; };
 		9D4DB74A20E16F72008F488D /* sachin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sachin.jpg; sourceTree = "<group>"; };
+		9D94723020E4890A004868AC /* ContactsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				9D4DB72D20E15C99008F488D /* ContactsVC.swift */,
 				9D4DB74720E16D50008F488D /* AddContactVC.swift */,
 				9D13CC5720E28B9700F7C4E5 /* iOSDropDown.swift */,
+				9D94723020E4890A004868AC /* ContactsCell.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				9D4DB74220E16196008F488D /* Common.swift in Sources */,
 				9D4DB72E20E15C99008F488D /* ContactsVC.swift in Sources */,
 				9D13CC6920E2B47200F7C4E5 /* DBHelper.swift in Sources */,
+				9D94723120E4890A004868AC /* ContactsCell.swift in Sources */,
 				9D4DB73420E15C99008F488D /* My_Contacts.xcdatamodeld in Sources */,
 				9D4DB72C20E15C98008F488D /* AppDelegate.swift in Sources */,
 				9D4DB74820E16D51008F488D /* AddContactVC.swift in Sources */,
@@ -352,6 +356,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "My Contacts/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -375,6 +380,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "My Contacts/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
