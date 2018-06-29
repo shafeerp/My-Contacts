@@ -166,6 +166,7 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
             })
         }
         self.countryDropDown.listWillAppear {
+            self.numberTextField.text = ""
             self.numberTextField.alpha = 0
             self.saveButton.alpha = 0
         }
