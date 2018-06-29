@@ -20,7 +20,6 @@
 		9D4DB73920E15C9A008F488D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D4DB73720E15C9A008F488D /* LaunchScreen.storyboard */; };
 		9D4DB74220E16196008F488D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DB74120E16196008F488D /* Common.swift */; };
 		9D4DB74820E16D51008F488D /* AddContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DB74720E16D50008F488D /* AddContactVC.swift */; };
-		9D4DB74B20E16F72008F488D /* sachin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9D4DB74A20E16F72008F488D /* sachin.jpg */; };
 		9D94723120E4890A004868AC /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94723020E4890A004868AC /* ContactsCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +52,6 @@
 		9D4DB73A20E15C9A008F488D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D4DB74120E16196008F488D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		9D4DB74720E16D50008F488D /* AddContactVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactVC.swift; sourceTree = "<group>"; };
-		9D4DB74A20E16F72008F488D /* sachin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sachin.jpg; sourceTree = "<group>"; };
 		9D94723020E4890A004868AC /* ContactsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,16 +87,12 @@
 		9D4DB72A20E15C98008F488D /* My Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				9D13CC6A20E2B4AD00F7C4E5 /* Contacts.swift */,
-				9D4DB74920E16D5F008F488D /* controller */,
-				9D4DB74020E16185008F488D /* util */,
-				9D4DB72B20E15C98008F488D /* AppDelegate.swift */,
-				9D4DB72F20E15C99008F488D /* Main.storyboard */,
-				9D4DB73520E15C9A008F488D /* Assets.xcassets */,
-				9D4DB73720E15C9A008F488D /* LaunchScreen.storyboard */,
 				9D4DB73A20E15C9A008F488D /* Info.plist */,
-				9D4DB73220E15C99008F488D /* My_Contacts.xcdatamodeld */,
-				9D13CC6820E2B47200F7C4E5 /* DBHelper.swift */,
+				9D4DB74020E16185008F488D /* util */,
+				9D94723520E5CA10004868AC /* supporting files */,
+				9D94723420E5C9FE004868AC /* views */,
+				9D94723220E5C9C5004868AC /* Data */,
+				9D4DB74920E16D5F008F488D /* controller */,
 			);
 			path = "My Contacts";
 			sourceTree = "<group>";
@@ -106,7 +100,6 @@
 		9D4DB74020E16185008F488D /* util */ = {
 			isa = PBXGroup;
 			children = (
-				9D4DB74A20E16F72008F488D /* sachin.jpg */,
 				9D4DB74120E16196008F488D /* Common.swift */,
 			);
 			path = util;
@@ -115,12 +108,40 @@
 		9D4DB74920E16D5F008F488D /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				9D4DB72B20E15C98008F488D /* AppDelegate.swift */,
 				9D4DB72D20E15C99008F488D /* ContactsVC.swift */,
 				9D4DB74720E16D50008F488D /* AddContactVC.swift */,
 				9D13CC5720E28B9700F7C4E5 /* iOSDropDown.swift */,
-				9D94723020E4890A004868AC /* ContactsCell.swift */,
 			);
 			path = controller;
+			sourceTree = "<group>";
+		};
+		9D94723220E5C9C5004868AC /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9D94723020E4890A004868AC /* ContactsCell.swift */,
+				9D13CC6820E2B47200F7C4E5 /* DBHelper.swift */,
+				9D13CC6A20E2B4AD00F7C4E5 /* Contacts.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9D94723420E5C9FE004868AC /* views */ = {
+			isa = PBXGroup;
+			children = (
+				9D4DB73720E15C9A008F488D /* LaunchScreen.storyboard */,
+				9D4DB72F20E15C99008F488D /* Main.storyboard */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		9D94723520E5CA10004868AC /* supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				9D4DB73520E15C9A008F488D /* Assets.xcassets */,
+				9D4DB73220E15C99008F488D /* My_Contacts.xcdatamodeld */,
+			);
+			path = "supporting files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,7 +206,6 @@
 				9D4DB73920E15C9A008F488D /* LaunchScreen.storyboard in Resources */,
 				9D4DB73620E15C9A008F488D /* Assets.xcassets in Resources */,
 				9D4DB73120E15C99008F488D /* Main.storyboard in Resources */,
-				9D4DB74B20E16F72008F488D /* sachin.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

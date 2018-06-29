@@ -48,6 +48,33 @@ class Common{
         return UIImage(data: imageData)!
         
     }
+    public static func keyboardDidShow(notification : Notification,view:UIView,textField : UITextField){
+        let info:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardY = view.frame.size.height - keyboardSize.height
+        let editingTextFieldY = textField.frame.origin.y
+        if view.frame.origin.y >= 0 {
+            if editingTextFieldY > keyboardY - 60 {
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                    view.frame = CGRect(x: 0, y: view.frame.origin.y - (editingTextFieldY - (keyboardY - 60)), width:view.bounds.width , height: view.bounds.height)
+                }, completion: nil)
+            }
+        }
+    }
+    
+    public static func keyboardDidHide(notification : Notification,view: UIView){
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            view.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
+        }, completion: nil)
+    }
+    
+    
+    public static func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let result = emailTest.evaluate(with: testStr)
+        return result
+    }
 }
 
 extension UITextField{

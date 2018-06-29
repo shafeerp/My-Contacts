@@ -15,9 +15,11 @@ struct Countries : Codable{
 
 class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+    @IBOutlet var errorLabel: UILabel!
+    @IBOutlet var viewHeight: NSLayoutConstraint!
     @IBOutlet var baseView: UIView!
     
-   //TextField
+    //TextField
     @IBOutlet var numberTextField: UITextField!
     @IBOutlet var countryDropDown: DropDown!
     @IBOutlet var firstNameTextField: UITextField!
@@ -34,12 +36,27 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     @IBOutlet var saveButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewHeight.constant = 0
         addNoticationAndDelegates()
         numberTextField.alpha = 0
         saveButton.alpha = 0
         contactIcon.makeRounded()
         saveButton.roundedCorner(cornerRadius: 15)
         getCountryDetails()
+    }
+    
+    func showErrorView(msg : String){
+        errorLabel.isHidden = false
+        UIView.animate(withDuration: 2, animations: {
+            self.viewHeight.constant = 35
+            self.errorLabel.text = msg
+        }, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            UIView.animate(withDuration: 2, animations: {
+                self.viewHeight.constant = 0
+                self.errorLabel.isHidden = true
+            }, completion: nil)
+        }
     }
     
 
@@ -83,29 +100,37 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     @IBAction func saveButtonClick(_ sender: Any) {
         
         if firstNameTextField.text == "" {
+            showErrorView(msg: "Enter First Name")
             firstNameTextField.shake()
         }
         else if secondNameTextField.text == ""{
+            showErrorView(msg: "Enter Second Name")
             secondNameTextField.shake()
         }
         else if mailIDTextField.text == ""{
+            showErrorView(msg: "Enter MaidId")
+            mailIDTextField.shake()
+        }
+            
+        else if !Common.isValidEmail(testStr: mailIDTextField.text!) {
+            showErrorView(msg: "Enter valid email id")
             mailIDTextField.shake()
         }
         else if countryDropDown.text == ""{
+            showErrorView(msg: "Choose Country")
             countryDropDown.shake()
         }
         else if numberTextField.text == ""{
+            showErrorView(msg: "Enter Mobile number")
             numberTextField.shake()
         }
+        
         else {
             
             dbHelper.insertIntoContactTabel(firstname: firstNameTextField.text!, secondname: secondNameTextField.text!, mailId: mailIDTextField.text!, cont: countryDropDown.text!, number: numberTextField.text!, image: Common.encodeToString64(image: contactIcon.image!))
             Common.showAlert(title: "Saved", message: "Contact Successfully Saved", view: self)
         }
     }
-    
-    
-    
     func getCountryDetails(){
         var countryCode = [String]()
         let urlRequest = URLRequest(url:URL(string: Common.COUNTRY_URL)!)
@@ -162,27 +187,24 @@ class AddContactVC: UIViewController,UIImagePickerControllerDelegate,UINavigatio
     
     @objc func keyboardDidShow(notification : Notification){
         
-        let info:NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        let keyboardY = self.baseView.frame.size.height - keyboardSize.height
-        let editingTextFieldY = self.activeTextField.frame.origin.y
-        if self.baseView.frame.origin.y >= 0 {
-            if editingTextFieldY > keyboardY - 60 {
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-                    self.baseView.frame = CGRect(x: 0, y: self.baseView.frame.origin.y - (editingTextFieldY - (keyboardY - 60)), width:self.baseView.bounds.width , height: self.baseView.bounds.height)
-                }, completion: nil)
-            }
-        }
+        Common.keyboardDidShow(notification: notification, view: baseView, textField: activeTextField)
     }
     
     @objc func keyboardDidHide(notification : Notification){
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.baseView.frame = CGRect(x: 0, y: 0, width: self.baseView.bounds.width, height: self.baseView.bounds.height)
-        }, completion: nil)
+       Common.keyboardDidHide(notification: notification, view: baseView)
     }
-    
 }
 extension AddContactVC : UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var newString = NSString()
+        let maxLength = 10
+        if textField == numberTextField{
+            let currentString: NSString = textField.text! as NSString
+            newString = currentString.replacingCharacters(in: range, with: string) as NSString
+        }
+        return newString.length <= maxLength
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
@@ -193,7 +215,7 @@ extension AddContactVC : UITextFieldDelegate{
             mailIDTextField.becomeFirstResponder()
             break
         case mailIDTextField:
-            countryDropDown.becomeFirstResponder()
+            mailIDTextField.resignFirstResponder()
             break
         case numberTextField:
             numberTextField.resignFirstResponder()
